@@ -11,21 +11,21 @@ Route::prefix('/v1')->name('v1.')->group(function () {
     // anyone authenticated can access these routes
     Route::prefix('/app')->name('app.')->middleware('auth')->group(function () {
         Route::prefix('/locations')->name('locations.')->group(function () {
-            Route::get('/', fn () => 'key-value list of location ids and formatted names, searchable by keywords')->name('index');
+            Route::get('/', fn () => 'simple list of active locations, searchable by keywords')->name('index');
             Route::get('/{location}', fn () => 'view location')->name('view');
-            Route::get('/{location}/postal-codes', fn () => 'key-value list of postal code ids and postal codes')->name('postalCodes');
+            Route::get('/{location}/postal-codes', fn () => 'simple list of active postal codes')->name('postalCodes');
             Route::get('/{location}/postal-codes/{postalCode}', fn () => 'view postal code')->name('postalCodes.view');
         });
 
         Route::prefix('/banks')->name('banks.')->group(function () {
-            Route::get('/', fn () => 'key-value list of bank ids and formatted names')->name('index');
+            Route::get('/', fn () => 'simple list of active banks')->name('index');
             Route::get('/{bank}', fn () => 'view bank')->name('view');
         });
 
         Route::prefix('/couriers')->name('couriers.')->group(function () {
-            Route::get('/', fn () => 'key-value list of active courier ids and names')->name('index');
+            Route::get('/', fn () => 'simple list of active couriers')->name('index');
             Route::get('/{courier}', fn () => 'view courier')->name('view');
-            Route::get('/{courier}/services', fn () => 'list courier services')->name('services');
+            Route::get('/{courier}/services', fn () => 'simple list of active courier services')->name('services');
             Route::get('/{courier}/services/{service}', fn () => 'view courier service')->name('services.view');
         });
     });
@@ -54,7 +54,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
             // relationship: teams (many-to-many)
             Route::prefix('/teams')->name('teams.')->group(function () {
-                Route::get('/', fn () => 'key-value list of teams attached to agent')->name('index');
+                Route::get('/', fn () => 'simple list of teams attached to agent')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of teams attached to the user as agent')->name('list');
                 });
@@ -87,7 +87,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         */
 
         Route::prefix('/transactions')->name('transactions.')->group(function () {
-            Route::get('/', fn () => 'key-value list of team transactions')->name('index');
+            Route::get('/', fn () => 'simple list of team transactions')->name('index');
             Route::prefix('/records')->name('records.')->group(function () {
                 Route::get('/', fn () => 'paginated full list of team transactions')->name('list');
                 Route::get('/{transaction}', fn () => 'view team transaction')->name('view');
@@ -101,7 +101,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         */
 
         Route::prefix('/members')->name('members.')->group(function () {
-            Route::get('/', fn () => 'key-value list of members')->name('index');
+            Route::get('/', fn () => 'simple list of members')->name('index');
             Route::prefix('/records')->name('records.')->group(function () {
                 Route::get('/', fn () => 'paginated full list of members')->name('list');
                 Route::get('/{member}', fn () => 'view member and its configuration related to team')->name('view');
@@ -113,7 +113,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             });
 
             Route::prefix('/invitations')->name('invitations.')->group(function () {
-                Route::get('/', fn () => 'key-value list of member invitations')->name('index');
+                Route::get('/', fn () => 'simple list of member invitations')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of member invitations')->name('list');
                     Route::post('/', fn () => 'create (and send) member invitation')->name('create');
@@ -135,7 +135,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         */
 
         Route::prefix('/agents')->name('agents.')->group(function () {
-            Route::get('/', fn () => 'key-value list of agents')->name('index');
+            Route::get('/', fn () => 'simple list of agents')->name('index');
             Route::prefix('/records')->name('records.')->group(function () {
                 Route::get('/', fn () => 'paginated full list of agents')->name('list');
                 Route::get('/{agent}', fn () => 'view agent and its configuration related to team')->name('view');
@@ -144,14 +144,14 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                 // agent group relationship (many-to-many)
                 Route::prefix('/{agent}/groups')->name('groups.')->group(function () {
-                    Route::get('/', fn () => 'key-value list of agent groups attached to agent')->name('index');
+                    Route::get('/', fn () => 'simple list of agent groups attached to agent')->name('index');
                 });
             });
             Route::prefix('/manage')->name('manage.')->group(function () {
                 Route::delete('/detach', fn () => 'detach multiple agents from team')->name('detach');
             });
             Route::prefix('/invitations')->name('invitations.')->group(function () {
-                Route::get('/', fn () => 'key-value list of agent invitations')->name('index');
+                Route::get('/', fn () => 'simple list of agent invitations')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of agent invitations')->name('list');
                     Route::post('/', fn () => 'create (and send) agent invitation')->name('send');
@@ -183,7 +183,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             |--------------------------------------------------------------------------
             */
             Route::prefix('/agent-groups')->name('agentGroups.')->group(function () {
-                Route::get('/', fn () => 'key-value list of agent groups')->name('index');
+                Route::get('/', fn () => 'simple list of agent groups')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of agent groups')->name('list');
                     Route::post('/', fn () => 'create a new agent group')->name('create');
@@ -193,7 +193,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // agents relationship (many-to-many)
                     Route::prefix('/{agentGroup}/agents')->name('agents.')->group(function () {
-                        Route::get('/', fn () => 'key-value list of agents in agent group')->name('index');
+                        Route::get('/', fn () => 'simple list of agents in agent group')->name('index');
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of agents in agent group')->name('list');
                             Route::get('/{agent}', fn () => 'view single agent with pivot values in agent group')->name('view');
@@ -209,7 +209,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship: pages (one-to-many)
                     Route::prefix('/{agentGroup}/pages')->name('pages.')->group(function () {
-                        Route::get('/', fn () => 'key-value list of pages in agent group')->name('index');
+                        Route::get('/', fn () => 'simple list of pages in agent group')->name('index');
                         Route::prefix('/manage')->name('manage.')->group(function () {
                             Route::post('/attach', fn () => 'attach multiple pages to agent group')->name('attach');
                             Route::delete('/detach', fn () => 'detach multiple pages from agent group')->name('detach');
@@ -230,7 +230,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             */
 
             Route::prefix('/pages')->name('pages.')->group(function () {
-                Route::get('/', fn () => 'key-value list of pages')->name('index');
+                Route::get('/', fn () => 'simple list of pages')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of pages')->name('list');
                     Route::get('/{page}', fn () => 'view page')->name('view');
@@ -271,7 +271,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             */
 
             Route::prefix('/products')->name('products.')->group(function () {
-                Route::get('/', fn () => 'key-value list of products')->name('index');
+                Route::get('/', fn () => 'simple list of products')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of products')->name('list');
                     Route::get('/{product}', fn () => 'view product')->name('view');
@@ -281,7 +281,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship : variants (one-to-many / optional)
                     Route::prefix('{product}/variants')->name('variants.')->group(function () {
-                        Route::get('/', fn () => 'key-value list of variants of the product')->name('index');
+                        Route::get('/', fn () => 'simple list of variants of the product')->name('index');
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of variants of the product')->name('list');
                             Route::put('/{variant}', fn () => 'update single variant of the product')->name('update');
@@ -297,7 +297,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship : pages (one-to-many / optional)
                     Route::prefix('{product}/pages')->name('pages.')->group(function () {
-                        Route::get('/', fn () => 'key-value list of pages attached to product')->name('list');
+                        Route::get('/', fn () => 'simple list of pages attached to product')->name('list');
 
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of pages attached to product')->name('list');
@@ -312,7 +312,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship : warehouses (many-to-many)
                     Route::prefix('{product}/warehouses')->name('warehouses.')->group(function () {
-                        Route::get('/', fn () => 'key-value list of warehouses attached to product')->name('list');
+                        Route::get('/', fn () => 'simple list of warehouses attached to product')->name('list');
 
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of warehouses attached to product')->name('list');
@@ -341,7 +341,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             */
 
             Route::prefix('/warehouses')->name('warehouses.')->group(function () {
-                Route::get('/', fn () => 'key-value list of warehouses')->name('index');
+                Route::get('/', fn () => 'simple list of warehouses')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of warehouses')->name('list');
                     Route::get('/{warehouse}', fn () => 'view warehouse')->name('view');
@@ -351,7 +351,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship : products (many-to-many / optional)
                     Route::prefix('{warehouse}/products')->name('products.')->group(function () {
-                        Route::get('/', fn () => 'key-value list of products attached to warehouse')->name('list');
+                        Route::get('/', fn () => 'simple list of products attached to warehouse')->name('list');
 
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of products attached to warehouse')->name('list');
