@@ -138,6 +138,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             Route::get('/', fn () => 'simple list of agents')->name('index');
             Route::prefix('/records')->name('records.')->group(function () {
                 Route::get('/', fn () => 'paginated full list of agents')->name('list');
+                Route::post('/', fn () => 'create new agent')->name('create');
                 Route::get('/{agent}', fn () => 'view agent and its configuration related to team')->name('view');
                 Route::put('/{agent}', fn () => 'update agent configuration related to team')->name('update');
                 Route::delete('/{agent}', fn () => 'detach single agent from team')->name('detach');
@@ -233,6 +234,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
                 Route::get('/', fn () => 'simple list of pages')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of pages')->name('list');
+                    Route::post('/', fn () => 'create new page')->name('create');
                     Route::get('/{page}', fn () => 'view page')->name('view');
                     Route::put('/{page}', fn () => 'update page')->name('update');
                     Route::patch('/{page}/action', fn () => 'do some available action such as archive or restore, e.g.: { "action": "archive" }')->name('action');
@@ -274,6 +276,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
                 Route::get('/', fn () => 'simple list of products')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of products')->name('list');
+                    Route::post('/', fn () => 'create new product')->name('create');
                     Route::get('/{product}', fn () => 'view product')->name('view');
                     Route::put('/{product}', fn () => 'update product')->name('update');
                     Route::patch('/{product}/action', fn () => 'do some available action such as archive or restore, e.g.: { "action": "archive" }')->name('action');
@@ -344,6 +347,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
                 Route::get('/', fn () => 'simple list of warehouses')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
                     Route::get('/', fn () => 'paginated full list of warehouses')->name('list');
+                    Route::post('/', fn () => 'create new warehouse')->name('create');
                     Route::get('/{warehouse}', fn () => 'view warehouse')->name('view');
                     Route::put('/{warehouse}', fn () => 'update warehouse')->name('update');
                     Route::patch('/{warehouse}/action', fn () => 'do some available action such as archive or restore, e.g.: { "action": "archive" }')->name('action');
