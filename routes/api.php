@@ -218,8 +218,6 @@ Route::prefix('/v1')->name('v1.')->group(function () {
                     });
                 });
                 Route::prefix('/manage')->name('manage.')->group(function () {
-                    Route::post('/archive', fn () => 'archive multiple agent groups')->name('archive');
-                    Route::post('/restore', fn () => 'restore multiple agent groups')->name('restore');
                     Route::delete('/destroy', fn () => 'destroy (cancel) multiple agent groups')->name('destroy');
                 });
             });
