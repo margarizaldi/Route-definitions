@@ -39,10 +39,11 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
         // relationship: teams (many-to-many / optional) --- either as the owner or as a member
         Route::prefix('/teams')->name('teams.')->group(function () {
-            Route::get('/', fn () => 'simple list of teams with few details')->name('list');
-            Route::post('/', fn () => 'create team')->name('create');
+            Route::get('/', fn () => 'simple list of teams with few details')->name('index');
             Route::prefix('/records')->name('records.')->group(function () {
                 Route::get('/', fn () => 'paginated full list of teams associated to the user, either as owner or member')->name('list');
+                Route::post('/', fn () => 'create team')->name('create');
+                Route::post('/check-subdomain', fn () => 'check subdomain availability')->name('checkSubdomain');
             });
         });
 
@@ -138,9 +139,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
             Route::get('/', fn () => 'simple list of agents')->name('index');
             Route::prefix('/records')->name('records.')->group(function () {
                 Route::get('/', fn () => 'paginated full list of agents')->name('list');
-                Route::post('/', fn () => 'create new agent')->name('create');
                 Route::get('/{agent}', fn () => 'view agent and its configuration related to team')->name('view');
-                Route::put('/{agent}', fn () => 'update agent configuration related to team')->name('update');
                 Route::delete('/{agent}', fn () => 'detach single agent from team')->name('detach');
 
                 // agent group relationship (many-to-many)
