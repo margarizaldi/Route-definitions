@@ -73,9 +73,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         Route::prefix('/wallet')->name('wallet.')->group(function () {
             Route::get('/', fn () => 'view team wallet balance details (balance, pending balance, pending deposit count & amount, and pending withdrawal count & amount)')->name('view');
             Route::get('/balance', fn () => 'view team wallet balance')->name('balance');
-            Route::get('/pending-balance', fn () => 'view team pending balance (unprocessed deposits and withdrawals)')->name('pendingBalance');
             Route::get('/transactions', fn () => 'list team wallet deposits and withdrawals')->name('transactions');
-            Route::get('/pending-transactions-count', fn () => 'count team wallet pending deposits and withdrawals')->name('pendingTransactionsCount');
             Route::get('/transactions/{transaction}', fn () => 'view team wallet deposit or withdrawal')->name('transactions.view');
             Route::post('/deposit', fn () => 'deposit to team wallet')->name('deposit');
             Route::post('/withdraw', fn () => 'withdraw from team wallet')->name('withdraw');
@@ -147,9 +145,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
                     Route::get('/', fn () => 'simple list of agent groups attached to agent')->name('index');
                 });
             });
-            Route::prefix('/manage')->name('manage.')->group(function () {
-                Route::delete('/detach', fn () => 'detach multiple agents from team')->name('detach');
-            });
+            
             Route::prefix('/invitations')->name('invitations.')->group(function () {
                 Route::get('/', fn () => 'simple list of agent invitations')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
