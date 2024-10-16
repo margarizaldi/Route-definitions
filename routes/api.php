@@ -65,6 +65,8 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
     // routes under team context, team id must be set in request header as X-Team-Id
     Route::prefix('/team')->name('team.')->middleware('auth', 'setTeamContext')->group(function () {
+        Route::post('/upload-file', 'upload file or image to be attached to resources')->name('uploadFile');
+
         /*
         |--------------------------------------------------------------------------
         | Wallets and transactions related deposits and withdrawals
