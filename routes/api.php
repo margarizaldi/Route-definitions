@@ -293,22 +293,17 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship : pages (one-to-many / optional)
                     Route::prefix('{product}/pages')->name('pages.')->group(function () {
-                        Route::get('/', fn () => 'simple list of pages attached to product')->name('list');
+                        Route::get('/', fn () => 'simple list of pages attached to product')->name('index');
 
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of pages attached to product')->name('list');
                             Route::delete('/{page}', fn () => 'detach single page from product')->name('detach');
                         });
-
-                        Route::prefix('/manage')->name('manage.')->group(function () {
-                            Route::post('/attach', fn () => 'attach multiple pages to product')->name('attach');
-                            Route::delete('/detach', fn () => 'detach multiple pages from product')->name('detach');
-                        });
                     });
 
                     // relationship : warehouses (many-to-many)
                     Route::prefix('{product}/warehouses')->name('warehouses.')->group(function () {
-                        Route::get('/', fn () => 'simple list of warehouses attached to product')->name('list');
+                        Route::get('/', fn () => 'simple list of warehouses attached to product')->name('index');
 
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of warehouses attached to product')->name('list');
@@ -348,7 +343,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
                     // relationship : products (many-to-many / optional)
                     Route::prefix('{warehouse}/products')->name('products.')->group(function () {
-                        Route::get('/', fn () => 'simple list of products attached to warehouse')->name('list');
+                        Route::get('/', fn () => 'simple list of products attached to warehouse')->name('index');
 
                         Route::prefix('/records')->name('records.')->group(function () {
                             Route::get('/', fn () => 'paginated full list of products attached to warehouse')->name('list');
