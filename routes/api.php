@@ -7,6 +7,212 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         Route::post('/logout', fn () => 'logout')->name('logout');
     });
 
+    // routes under admin context
+    Route::prefix('/adm')->name('admin.')->middleware(['auth:auth0-admin-api', 'setUserLocale'])->group(function () {
+        Route::get('/me', fn () => 'current user details')->middleware('auth')->name('me');
+
+        Route::post('/logout', fn () => 'logout')->name('logout');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Agents
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/agents')->name('agents.')->group(function () {
+            Route::get('/', fn () => 'paginated list of agents')->name('list');
+            Route::get('/{agent}', fn () => 'view agent')->name('view');
+            Route::post('/', fn () => 'create agent')->name('create');
+            Route::put('/{agent}', fn () => 'update agent')->name('update');
+            Route::patch('/{agent}', fn () => 'update agent')->name('update');
+            Route::delete('/{agent}', fn () => 'delete agent')->name('destroy');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Banks
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/banks')->name('banks.')->group(function () {
+            Route::get('/', fn () => 'paginated list of banks')->name('list');
+            Route::get('/{bank}', fn () => 'view bank')->name('view');
+            Route::post('/', fn () => 'create bank')->name('create');
+            Route::put('/{bank}', fn () => 'update bank')->name('update');
+            Route::patch('/{bank}', fn () => 'update bank')->name('update');
+            Route::delete('/{bank}', fn () => 'delete bank')->name('destroy');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Company wallets
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/company-wallets')->name('companyWallets.')->group(function () {
+            Route::get('/', fn () => 'simple list of company wallets')->name('index');
+
+            Route::prefix('/records')->name('records.')->group(function () {
+                Route::get('/', fn () => 'paginated list of company wallets')->name('list');
+                Route::get('/{companyWallet}', fn () => 'view company wallet')->name('view');
+                Route::post('/', fn () => 'create')->name('create company wallet');
+                Route::put('/{companyWallet}', fn () => 'update company wallet')->name('update');
+                Route::patch('/{companyWallet}', fn () => 'update company wallet')->name('update');
+                Route::patch('/{companyWallet}/activate', fn () => 'activate company wallet')->name('activate');
+                Route::patch('/{companyWallet}/deactivate', fn () => 'deactivate company wallet')->name('deactivate');
+            });
+
+            Route::prefix('/{companyWallet}/transactions')->name('transactions.')->group(function () {
+                Route::get('/', fn () => 'paginated list of transactions from company wallet')->name('list');
+                Route::get('/{transactionId}', fn () => 'view transaction from company wallet')->name('view');
+                Route::post('/deposit', fn () => 'deposit to company wallet')->name('deposit');
+            });
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Courier services
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/courier-services')->name('courierServices.')->group(function () {
+            Route::get('/', fn () => 'simple list of courier services')->name('index');
+
+            Route::prefix('/records')->name('records.')->group(function () {
+                Route::get('/', fn () => 'paginated list of courier services')->name('list');
+                Route::get('/{courierService}', fn () => 'view courier service')->name('view');
+                Route::post('/', fn () => 'create courier')->name('create');
+                Route::put('/{courierService}', fn () => 'update courier service')->name('update');
+                Route::patch('/{courierService}', fn () => 'update courier service')->name('update');
+                Route::delete('/{courierService}', fn () => 'delete courier service')->name('destroy');
+            });
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Couriers
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/couriers')->name('couriers.')->group(function () {
+            Route::get('/', fn () => 'paginated list of couriers')->name('list');
+            Route::get('/{courier}', fn () => 'view courier')->name('view');
+            Route::post('/', fn () => 'create courier')->name('create');
+            Route::put('/{courier}', fn () => 'update courier')->name('update');
+            Route::patch('/{courier}', fn () => 'update courier')->name('update');
+            Route::delete('/{courier}', fn () => 'delete courier')->name('destroy');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Locations
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/locations')->name('locations.')->group(function () {
+            Route::get('/provinces', fn () => 'simple list of provinces')->name('provinces.index');
+            Route::get('/cities', fn () => 'simple list of cities')->name('cities.index');
+            Route::get('/districts', fn () => 'simple list of districts')->name('districts.index');
+
+            Route::prefix('/records')->name('records.')->group(function () {
+                Route::get('/', fn () => 'paginated list of locations')->name('list');
+                Route::get('/{location}', fn () => 'view location')->name('view');
+                Route::post('/', fn () => 'create location')->name('create');
+                Route::put('/{location}', fn () => 'update location')->name('update');
+                Route::patch('/{location}', fn () => 'update location')->name('update');
+                Route::delete('/{location}', fn () => 'delete location')->name('destroy');
+            });
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Postal codes
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/postal-codes')->name('postalCodes.')->group(function () {
+            Route::get('/', fn () => 'paginated list of postal codes')->name('list');
+            Route::get('/{postalCode}', fn () => 'view postal code')->name('view');
+            Route::post('/', fn () => 'create postal code')->name('create');
+            Route::put('/{postalCode}', fn () => 'update postal code')->name('update');
+            Route::patch('/{postalCode}', fn () => 'update postal code')->name('update');
+            Route::delete('/{postalCode}', fn () => 'delete postal code')->name('destroy');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Shipping providers
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/shipping-providers')->name('shippingProviders.')->group(function () {
+            Route::get('/', fn () => 'simple list of shipping providers')->name('index');
+
+            Route::prefix('/records')->name('records.')->group(function () {
+                Route::get('/', fn () => 'paginated list of shipping providers')->name('list');
+                Route::get('/{shippingProvider}', fn () => 'view shipping provider')->name('view');
+                Route::post('/', fn () => 'create')->name('create shipping provider');
+                Route::put('/{shippingProvider}', fn () => 'update shipping provider')->name('update');
+                Route::patch('/{shippingProvider}', fn () => 'update shipping provider')->name('update');
+                Route::delete('/{shippingProvider}', fn () => 'delete shipping provider')->name('destroy');
+            });
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Teams
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/teams')->name('teams.')->group(function () {
+            Route::get('/', fn () => 'paginated list of teams')->name('list');
+            Route::get('/{team}', fn () => 'view team')->name('view');
+            Route::patch('/{team}/block', fn () => 'block team access')->name('block');
+            Route::patch('/{team}/unblock', fn () => 'unblock team access')->name('unblock');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Team shipping discount
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/team-shipping-discounts')->name('teamShippingDiscounts.')->group(function () {
+            Route::get('/', fn () => 'paginated list of team shipping discounts')->name('list');
+            Route::get('/{teamShippingDiscount}', fn () => 'view team shipping discount')->name('view');
+            Route::post('/', fn () => 'create')->name('create team shipping discount');
+            Route::put('/{teamShippingDiscount}', fn () => 'update team shipping discount')->name('update');
+            Route::patch('/{teamShippingDiscount}', fn () => 'update team shipping discount')->name('update');
+            Route::delete('/{teamShippingDiscount}', fn () => 'delete team shipping discount')->name('destroy');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Wallet requests
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/wallet-requests')->name('walletRequests.')->group(function () {
+            Route::get('/', fn () => 'paginated list of wallet requests')->name('list');
+            Route::get('/{walletRequest}', fn () => 'view wallet request')->name('view');
+            Route::post('/{walletRequest}/confirm-deposit', fn () => 'confirm deposit request')->name('confirmDeposit');
+            Route::post('/{walletRequest}/confirm-withdrawal', fn () => 'confirm withdraw request')->name('confirmWithdrawal');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Users
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('/users')->name('users.')->group(function () {
+            Route::get('/', fn () => 'paginated list of users')->name('list');
+            Route::get('/{user}', fn () => 'view user')->name('view');
+            Route::patch('/{user}/block', fn () => 'block user access to application')->name('block');
+            Route::patch('/{user}/unblock', fn () => 'unblock user access to application')->name('unblock');
+        });
+    });
+
     // global read-only routes to support the application operations
     // anyone authenticated can access these routes
     Route::prefix('/app')->name('app.')->middleware('auth')->group(function () {
@@ -147,7 +353,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
                     Route::get('/', fn () => 'simple list of agent groups attached to agent')->name('index');
                 });
             });
-            
+
             Route::prefix('/invitations')->name('invitations.')->group(function () {
                 Route::get('/', fn () => 'simple list of agent invitations')->name('index');
                 Route::prefix('/records')->name('records.')->group(function () {
